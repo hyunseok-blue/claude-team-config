@@ -35,8 +35,10 @@ src/
 
 ## Jira / Confluence
 
-- **Jira 프로젝트 키**: DCTC
-- **Confluence 스페이스**: DCT
+<!-- 프로젝트에 맞게 수정하세요 -->
+- **Atlassian 도메인**: [your-domain].atlassian.net
+- **Jira 프로젝트 키**: [PROJECT_KEY]
+- **Confluence 스페이스**: [SPACE_KEY]
 - 작업 시 관련 Jira 이슈 확인/참조 필수
 
 ## 빌드 & 테스트

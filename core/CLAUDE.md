@@ -43,17 +43,6 @@ Evidence > assumptions | Code > documentation | Efficiency > verbosity
 - **Package**: npm
 - **Context7**: Auto-use for Next.js, React, FastAPI, Prisma docs
 
-## Jira / Confluence
-
-- **Atlassian 도메인**: madup.atlassian.net
-- **Jira 프로젝트 키**: DCTC
-- **Jira 보드**: 274
-- **Confluence 스페이스 키**: DCT
-- Jira 이슈 검색/생성 시 프로젝트 키 `DCTC`를 기본으로 사용
-- Confluence 페이지 생성 시 스페이스 `DCT`를 기본으로 사용
-- 프로젝트 작업 시 관련 Jira 이슈를 **반드시** 확인/참조
-- 작업 시작/완료 시 Jira 이슈 상태 업데이트 제안
-
 ## Quality Gates
 
 1. **Syntax** — Language parser validation
