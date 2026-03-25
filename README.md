@@ -103,6 +103,15 @@ cp ~/claude-team-config/templates/project-claude.md.template .claude/CLAUDE.md
    - `refactorer`: 리팩토링, 기술 부채
    - `scribe`: 문서 작성
 
+## 토큰 최적화
+
+CLAUDE.md는 매 메시지마다 시스템 프롬프트로 재전송됩니다. 크기를 줄이면 비용이 직접 절감됩니다.
+
+- **`@파일` 참조 비용**: `@COMMANDS.md` + `@PERSONAS.md` + `@SYSTEM.md` = ~14KB (~3,800 토큰/메시지)
+- **권장 CLAUDE.md 크기**: 8KB 이하 (핵심 규칙만 포함)
+- **불필요한 섹션 제거**: OMC 사용 시 agent_catalog, skills, mcp_routing 등은 플러그인이 자동 주입
+- **진심모드 주의**: 삼중 병렬 실행은 비용 3-5배 증가. 기본 비활성화 권장
+
 ## 제거
 
 ```bash
