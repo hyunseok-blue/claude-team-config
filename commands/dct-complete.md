@@ -84,6 +84,6 @@ PR을 생성할까요? (y/N)
 
 ## 규칙 준수
 - **한국어** 응답/Jira 댓글
-- **영문 커밋 메시지** (korean-dev 규칙)
+- **한국어 커밋 메시지** (korean-dev 규칙, 간결하게)
 - **PR 제목**: `[DCTC-N] ...` 포맷으로 Jira 카드와 연결
 - **doc-updates 규칙**: 코드 변경과 관련된 문서(`.claude/agents/*`, 프로젝트 CLAUDE.md 등) 업데이트 여부 체크
