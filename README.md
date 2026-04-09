@@ -15,12 +15,8 @@
 | `/dct-plan <DCTC-번호> [설명]` | 플랜 작성 → Jira 업로드 → `feature/DCTC-N` 브랜치 진입 (구현은 자유) |
 | `/dct-complete <DCTC-번호>` | 결과 요약 → Jira 완료 댓글 → PR 생성 (사용자 확인 후) |
 | `/dct-job <DCTC-번호> <타입> <설명>` | 플랜→구현→검증→PR 완전 자동화 파이프라인 |
-| `/sc:analyze` | 코드 품질/보안/성능/아키텍처 종합 분석 |
-| `/sc:implement` | 기능 구현 (페르소나 자동 활성화) |
-| `/sc:troubleshoot` | 이슈 진단 및 해결 |
-| `/sc:improve` | 코드 품질 개선 |
-| `/sc:test` | 테스트 실행 및 리포트 |
-| `/sc:build` | 프로젝트 빌드 |
+| `/dct-slack <ID\|이름> <메시지>` | 봇 `@매도비` 통해 팀 Slack 채널/DM 전송 |
+| `/dct-refresh-slack` | AWS Secrets Manager 에서 Slack 봇 토큰 갱신 |
 
 ### 스킬
 - `dct-onboarding` — `/dct` 백엔드
@@ -94,8 +90,10 @@ claude-team-config/
 │   ├── dct-plan.md          # /dct-plan — 플랜 + 브랜치 진입
 │   ├── dct-complete.md      # /dct-complete — 마무리 + PR
 │   ├── dct-job.md           # /dct-job — 완전 자동화 래퍼
-│   └── sc/                  # /sc:* 6개
-├── skills/                  # dct-onboarding, dct-jira-workflow + 품질 스킬 10개
+│   ├── dct-slack.md         # /dct-slack — Slack 메시지 전송
+│   └── dct-refresh-slack.md # /dct-refresh-slack — 토큰 갱신
+├── skills/                  # dct-onboarding, dct-jira-workflow, dct-slack + 품질 스킬
+├── scripts/                 # refresh-slack-token.sh
 ├── rules/                   # 팀 기본 규칙 8개
 ├── core/
 │   └── CLAUDE.md            # 사용자 전역 CLAUDE.md 템플릿

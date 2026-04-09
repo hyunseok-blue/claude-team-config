@@ -25,7 +25,8 @@
 - `/dct-plan <DCTC-번호> [설명]` — 플랜 작성 + Jira 업로드 + 브랜치 진입 (구현은 자유)
 - `/dct-complete <DCTC-번호>` — 결과 요약 + Jira 완료 댓글 + PR 생성 (확인 후)
 - `/dct-job <DCTC-번호> <타입> <설명>` — 플랜→구현→검증→PR 완전 자동화
-- `/sc:analyze`, `/sc:implement`, `/sc:troubleshoot`, `/sc:improve`, `/sc:test`, `/sc:build` — 일반 개발 워크플로우
+- `/dct-slack <ID|이름> <메시지>` — 팀 Slack 메시지 전송 (봇 @매도비)
+- `/dct-refresh-slack` — AWS Secrets Manager 에서 Slack 봇 토큰 갱신
 
 ## 핵심 원칙
 - **Evidence > assumptions** — 추측 대신 근거

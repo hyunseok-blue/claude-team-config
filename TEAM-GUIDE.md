@@ -8,8 +8,8 @@
 - **`/dct` 온보딩 커맨드** — Atlassian MCP 설정, SSH 키, `gh auth login`, 팀 기본 설정을 단계별로 안내 (Slack/AWS 선택)
 - **`/dct-job` Jira 워크플로우** — 카드 번호만 주면 브랜치 생성 → 플랜 → 구현 → Jira 댓글까지 자동 실행
 - **팀 기본 규칙 8개** — 한국어 응답, 커밋 컨벤션, 브랜치 네이밍, Python/AWS/문서 동기화 등
-- **`/sc:` 커맨드 6개** — analyze/implement/troubleshoot/improve/test/build
-- **품질 스킬 9개** — TDD, 디버깅, 계획, 검증, 코드리뷰, 웹앱 테스트
+- **`/dct-slack`, `/dct-refresh-slack`** — 봇 `@매도비` 통해 Slack 메시지 전송 및 토큰 갱신 (AWS Secrets Manager 연동)
+- **품질 스킬** — TDD, 디버깅, 계획, 검증, 코드리뷰, 웹앱 테스트
 
 ## 왜 만들었나요?
 
@@ -54,7 +54,7 @@ claude --plugin ~/dct-plugin
 /dct-plan DCTC-1808 "프론트 사이드바 애니메이션 개선"
 # → 플랜 작성, Jira 업로드, feature/DCTC-1808 브랜치 진입
 
-# (자유) 직접 코딩, /sc:implement, /autopilot 등 무엇이든
+# (자유) 직접 코딩, /autopilot, /ultrawork 등 무엇이든
 
 /dct-complete DCTC-1808
 # → 결과 요약, Jira 완료 댓글, PR 생성(확인 후)
@@ -67,11 +67,11 @@ claude --plugin ~/dct-plugin
 ```
 플랜 → 구현 → 검증 → PR 생성까지 논스톱. 중간 중단 지점(플랜 승인, PR 생성 여부)에서만 사용자 확인.
 
-### 일반 개발 작업
+### Slack 메시지 전송
 ```
-/sc:implement 로그인 API --type api --with-tests
-/sc:analyze src/ --focus security
-/sc:troubleshoot "로그인 후 리다이렉트 안됨" --type bug
+/dct-slack 정하늘 배포 완료했습니다          # 주소록에 저장된 이름으로 DM
+/dct-slack mkt_데이터컨설팅_cp 스프린트 완료  # 채널에 공지
+/dct-slack U0AL4JJMC48 테스트                 # Member ID 직접 (최초 전송 시)
 ```
 
 ## 프로젝트별 설정
