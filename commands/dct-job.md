@@ -1,6 +1,7 @@
 ---
 name: dct-job
 description: Jira DCTC 카드 기반 작업을 완전 자동화 — 플랜→구현→검증→PR까지 논스톱 실행
+argument-hint: <DCTC-번호> <feat|fix|refactor|chore> "<작업 설명 또는 파일경로>"
 ---
 
 # /dct-job — 완전 자동화 파이프라인

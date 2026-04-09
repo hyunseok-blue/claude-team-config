@@ -1,6 +1,7 @@
 ---
 name: dct-plan
 description: Jira DCTC 카드 기반 작업 진입 — 플랜 작성, Jira 업로드, feature 브랜치 체크아웃까지 수행 (구현은 유저 자유)
+argument-hint: <DCTC-번호> ["<작업 설명>" | <파일경로>]
 ---
 
 # /dct-plan — 플랜 작성 & 진입
@@ -36,9 +37,9 @@ Jira 카드 기반 작업을 **시작**하는 커맨드. 플랜 작성과 브랜
 - 사용자에게 **플랜 미리보기** 제시 → 승인 받기
 
 ### 4. Jira 업로드
-- 승인된 플랜을 Jira 카드에 **댓글**로 업로드
-- 도구: `mcp__mcp-atlassian__jira_add_comment`
-- 댓글 포맷:
+- 승인된 플랜을 Jira 카드의 **description(설명) 필드**에 기록 (기존 설명이 있으면 병합 또는 사용자 확인 후 갱신)
+- 도구: `mcp__mcp-atlassian__jira_update_issue` (`fields.description` 업데이트)
+- description 포맷 (Markdown):
   ```
   📋 작업 플랜 (by Claude Code)
 
@@ -65,7 +66,7 @@ Jira 카드 기반 작업을 **시작**하는 커맨드. 플랜 작성과 브랜
 - 메모리 엔트리 이름에 스토리 번호 포함 (예: `DCTC-1808-plan`)
 
 ### 6. 종료 메시지
-- 플랜 Jira 댓글 링크
+- 플랜이 반영된 Jira 카드 링크 (description 갱신됨)
 - 현재 브랜치 확인
 - 다음 액션 안내:
   ```

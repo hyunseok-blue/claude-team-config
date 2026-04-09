@@ -1,6 +1,7 @@
 ---
 name: dct-complete
 description: Jira DCTC 작업 마무리 — 작업 결과 요약, Jira 완료 댓글 등록, PR 생성(사용자 확인)
+argument-hint: <DCTC-번호>
 ---
 
 # /dct-complete — 작업 마무리
