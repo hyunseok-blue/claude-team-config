@@ -12,7 +12,9 @@
 | 커맨드 | 설명 |
 |--------|------|
 | `/dct` | 신규 팀원 온보딩 — MCP(Atlassian/GitHub) 설정, SSH 키, 팀 CLAUDE.md 배포 |
-| `/dct-job <DCTC-번호> <타입> <설명>` | Jira 카드 기반 작업 실행 — 브랜치→플랜→구현→Jira 댓글까지 자동화 |
+| `/dct-plan <DCTC-번호> [설명]` | 플랜 작성 → Jira 업로드 → `feature/DCTC-N` 브랜치 진입 (구현은 자유) |
+| `/dct-complete <DCTC-번호>` | 결과 요약 → Jira 완료 댓글 → PR 생성 (사용자 확인 후) |
+| `/dct-job <DCTC-번호> <타입> <설명>` | 플랜→구현→검증→PR 완전 자동화 파이프라인 |
 | `/sc:analyze` | 코드 품질/보안/성능/아키텍처 종합 분석 |
 | `/sc:implement` | 기능 구현 (페르소나 자동 활성화) |
 | `/sc:troubleshoot` | 이슈 진단 및 해결 |

@@ -22,7 +22,9 @@
 
 ## DCT 플러그인 커맨드
 - `/dct` — 신규 팀원 온보딩 (MCP/SSH/팀 기본 설정)
-- `/dct-job <DCTC-번호> <타입> <설명>` — Jira 카드 기반 작업 실행
+- `/dct-plan <DCTC-번호> [설명]` — 플랜 작성 + Jira 업로드 + 브랜치 진입 (구현은 자유)
+- `/dct-complete <DCTC-번호>` — 결과 요약 + Jira 완료 댓글 + PR 생성 (확인 후)
+- `/dct-job <DCTC-번호> <타입> <설명>` — 플랜→구현→검증→PR 완전 자동화
 - `/sc:analyze`, `/sc:implement`, `/sc:troubleshoot`, `/sc:improve`, `/sc:test`, `/sc:build` — 일반 개발 워크플로우
 
 ## 핵심 원칙
