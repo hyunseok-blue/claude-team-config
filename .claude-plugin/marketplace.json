@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "dct-claude-plugin",
-      "source": ".",
+      "source": "./",
       "description": "데이터 컨설팅 팀(DCT) Claude Code 온보딩 및 Jira/GitHub 워크플로우 플러그인",
       "version": "0.1.0",
       "category": "workflow",
