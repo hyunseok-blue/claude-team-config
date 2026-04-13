@@ -23,7 +23,7 @@ MCP 서버: `slack-bot` (`@modelcontextprotocol/server-slack`, `xoxb-` 토큰). 
 /dct-slack-bot D0AKWNL5ULB 메모
 ```
 - 전송 성공 후 Claude 가 **"이 ID 를 주소록에 어떤 이름으로 저장할까요?"** 라고 묻는다
-- 이름을 입력하면 `~/.claude/dct-slack-bot-addressbook.json` 에 자동 저장
+- 이름을 입력하면 `~/.claude/dct-slack-addressbook.json` 에 자동 저장
 - 건너뛰고 싶으면 `skip`
 
 ### 이후 전송 — 저장된 이름 사용
@@ -60,7 +60,7 @@ MCP 서버: `slack-bot` (`@modelcontextprotocol/server-slack`, `xoxb-` 토큰). 
 
 ## 주소록
 
-**위치**: `~/.claude/dct-slack-bot-addressbook.json`
+**위치**: `~/.claude/dct-slack-addressbook.json`
 
 ```json
 {
