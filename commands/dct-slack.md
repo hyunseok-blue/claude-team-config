@@ -8,7 +8,7 @@ argument-hint: <Member ID | Channel ID | 저장된 이름> <메시지 본문>
 
 `madupteam.slack.com` 에서 **본인 계정 그대로** 채널 또는 DM 으로 메시지를 전송한다. 봇이 아닌 **사용자 본인이 보낸 것**으로 표시된다.
 
-MCP 서버: `slack` (`@korotovsky/slack-mcp-server`, `xoxc-`/`xoxd-` 브라우저 세션 토큰)
+MCP 서버: `slack` (`slack-mcp-server`, `xoxc-`/`xoxd-` 브라우저 세션 토큰)
 
 > **봇(`@매도비`)으로 보내려면**: `/dct-slack-bot` 사용
 

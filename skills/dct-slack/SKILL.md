@@ -12,7 +12,7 @@ description: 팀 Slack 메시지 전송 스킬. 본인 계정(/dct-slack, MCP "s
 | | `/dct-slack` (본인 계정) | `/dct-slack-bot` (봇) |
 |---|---|---|
 | MCP 키 | `slack` | `slack-bot` |
-| MCP 서버 | `@korotovsky/slack-mcp-server` | `@modelcontextprotocol/server-slack` |
+| MCP 서버 | `slack-mcp-server` | `@modelcontextprotocol/server-slack` |
 | 토큰 | `xoxc-` + `xoxd-` (브라우저 세션) | `xoxb-` (AWS Secrets Manager) |
 | 발신자 표시 | **본인 이름** | **@매도비** (봇) |
 | 도구 prefix | `mcp__slack__*` | `mcp__slack-bot__*` |
