@@ -28,6 +28,8 @@ description: 데이터 컨설팅 팀(DCT) Claude Code 신규 셋업 가이드. A
 | rules/ | `ls ~/.claude/rules/*.md \| wc -l` | 8개 이상 |
 | AWS CLI | `aws sts get-caller-identity` | exit code 0 |
 | Slack MCP | `jq '.mcpServers.slack // empty' ~/.claude.json` | 비어있지 않음 |
+| RTK | `which rtk && rtk --version` | 명령 존재 + 버전 출력 |
+| RTK hook | `jq '.hooks.PreToolUse // empty' ~/.claude/settings.json \| grep rtk` | rtk 포함 |
 
 - ✅ → 해당 체크리스트 단계 건너뛰기
 - ❌ → 해당 단계 번호와 함께 안내
@@ -61,9 +63,28 @@ description: 데이터 컨설팅 팀(DCT) Claude Code 신규 셋업 가이드. A
 - [ ] `~/.claude/rules/` 없음 → `rules/*.md` 8개 복사
 - [ ] `~/.claude/rules/` 있음 → 파일 단위 검사, **없는 파일만** 추가 복사 (기존 덮어쓰기 금지)
 
-### D. Slack MCP (선택)
+### D. RTK 설치 — 토큰 절감 (권장)
+RTK(Rust Token Killer)는 Bash 명령 출력을 자동 압축해 **토큰 소비를 60~90% 줄여주는** CLI 프록시. Claude Code `PreToolUse` hook 으로 `git status` → `rtk git status` 처럼 투명하게 rewrite 한다.
+
+- [ ] RTK 설치:
+  ```bash
+  brew install rtk
+  ```
+  Homebrew 없으면: `curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh`
+- [ ] 설치 확인: `rtk --version`
+- [ ] Claude Code hook 등록:
+  ```bash
+  rtk init -g
+  ```
+  기존 hook 이 있으면 RTK hook 을 **추가** (덮어쓰지 않음)
+- [ ] 등록 확인: `rtk init --show`
+- [ ] (선택) Telemetry 비활성화: `~/.zshrc` 에 `export RTK_TELEMETRY_DISABLED=1` 추가
+- 참고: RTK 는 Claude Code 내장 도구(`Read`, `Grep`, `Glob`)에는 영향 없음 — `Bash` 도구 셸 명령에만 적용
+- 리포: https://github.com/rtk-ai/rtk
+
+### E. Slack MCP (선택)
 개인 DM, 채널 조회, 메시지 전송이 필요한 경우만.
-- [ ] `korotovsky/slack-mcp-server` 사용 (브라우저 xoxc/xoxd 토큰 기반)
+- [ ] `@modelcontextprotocol/server-slack` 사용 (AWS Secrets Manager 봇 토큰 기반)
 - [ ] `madupteam.slack.com` 브라우저 로그인 후 개발자 도구에서 `xoxc-...`, `xoxd-...` 추출
 - [ ] `settings-example.json` 의 slack 섹션에 토큰 입력
 - [ ] `SLACK_MCP_ADD_MESSAGE_TOOL` 에 전송 허용 채널 ID 화이트리스트 (예: `C01234ABCD,C05678EFGH`) — 기본값 `false` 로 전송 비활성화 권장

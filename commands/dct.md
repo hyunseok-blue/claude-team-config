@@ -32,6 +32,12 @@ aws sts get-caller-identity 2>&1
 
 # F. Slack MCP
 jq '.mcpServers.slack // empty' ~/.claude.json 2>/dev/null
+
+# G. RTK (토큰 절감)
+which rtk 2>/dev/null && rtk --version
+
+# H. RTK hook
+jq '.hooks.PreToolUse // empty' ~/.claude/settings.json 2>/dev/null | grep -q 'rtk' && echo "RTK hook registered" || echo "RTK hook not registered"
 ```
 
 진단 결과를 **체크리스트 형식**으로 사용자에게 출력:
@@ -45,6 +51,7 @@ jq '.mcpServers.slack // empty' ~/.claude.json 2>/dev/null
 ✅ rules/ — 8개 파일 존재
 ❌ AWS CLI — 인증 안 됨 → 6단계에서 설정
 ❌ Slack MCP — 미등록 → 7단계에서 설정 (AWS 선행 필수)
+❌ RTK — 미설치 → 8단계에서 설정 (토큰 60~90% 절감)
 ```
 
 - ✅ 항목은 **건너뛰기**
@@ -183,7 +190,27 @@ bash ~/.claude/plugins/cache/dct-marketplace/dct-claude-plugin/0.1.0/scripts/ref
 - Token Scopes: `chat:write`, `im:write` 필수
 - Private 채널에 메시지 보내려면 해당 채널에서 `/invite @매도비` 먼저 실행
 
-### 8. 최종 점검
+### 8. RTK 설치 — 토큰 절감 (권장)
+RTK(Rust Token Killer)는 Bash 명령 출력을 자동 압축해 **토큰 소비를 60~90% 줄여주는** CLI 프록시. Claude Code `PreToolUse` hook 으로 `git status` → `rtk git status` 처럼 투명하게 rewrite 한다.
+
+1. RTK 설치:
+   ```bash
+   brew install rtk
+   ```
+   Homebrew 없으면: `curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh`
+2. 설치 확인: `rtk --version`
+3. Claude Code hook 등록:
+   ```bash
+   rtk init -g
+   ```
+   기존 hook 이 있으면 RTK hook 을 **추가** (덮어쓰지 않음)
+4. 등록 확인: `rtk init --show`
+5. (선택) Telemetry 비활성화: `~/.zshrc` 에 `export RTK_TELEMETRY_DISABLED=1` 추가
+6. Claude Code **재시작** — 이후 Bash 도구의 `git status`, `ls`, `docker ps` 등이 자동으로 RTK 를 거쳐 압축된 출력 전달
+
+> **참고**: RTK 는 Claude Code 내장 도구(`Read`, `Grep`, `Glob`)에는 영향 없음 — `Bash` 도구 셸 명령에만 적용. 제거: `rtk init -g --uninstall && brew uninstall rtk`. 리포: https://github.com/rtk-ai/rtk
+
+### 9. 최종 점검
 - `claude mcp list` 로 MCP 연결 상태 확인 (값은 출력되지 않음)
   - `mcp-atlassian: ✓ Connected` 필수
   - (Slack 설정 시) `slack: ✓ Connected`
@@ -192,6 +219,7 @@ bash ~/.claude/plugins/cache/dct-marketplace/dct-claude-plugin/0.1.0/scripts/ref
 - `gh auth status` 로 GitHub 인증 확인 (`Git operations protocol: ssh`)
 - (AWS 설정 시) `aws sts get-caller-identity` 로 인증 확인
 - (Slack 설정 시) `/dct-slack U<본인ID> 온보딩 테스트` 로 DM 스모크 테스트
+- (RTK 설정 시) `rtk --version` + `rtk init --show` 로 hook 등록 확인
 - `~/.claude/CLAUDE.md` 와 `~/.claude/rules/` 존재 확인
 - 백업 파일 위치 안내 (복원 필요 시):
   - `cp ~/.claude.json.bak-<timestamp> ~/.claude.json`

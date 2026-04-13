@@ -13,12 +13,21 @@
         "CONFLUENCE_API_TOKEN": "YOUR_CONFLUENCE_API_TOKEN_HERE"
       }
     },
-    "slack": {
+    "slack-bot": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-slack"],
       "env": {
         "SLACK_BOT_TOKEN": "YOUR_SLACK_BOT_TOKEN_HERE",
         "SLACK_TEAM_ID": "T5D95TP5Z"
+      }
+    },
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@korotovsky/slack-mcp-server"],
+      "env": {
+        "SLACK_MCP_XOXC_TOKEN": "YOUR_SLACK_XOXC_TOKEN_HERE",
+        "SLACK_MCP_XOXD_TOKEN": "YOUR_SLACK_XOXD_TOKEN_HERE",
+        "SLACK_MCP_ADD_MESSAGE_TOOL": "false"
       }
     }
   }

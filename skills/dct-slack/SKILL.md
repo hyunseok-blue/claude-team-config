@@ -1,11 +1,22 @@
 ---
 name: dct-slack
-description: 팀 Slack 메시지 전송 스킬. 최초 전송은 Member/Channel ID 직접 입력, 성공 시 이름-ID 매핑을 주소록에 저장. 이후부터는 이름으로도 전송 가능.
+description: 팀 Slack 메시지 전송 스킬. 본인 계정(/dct-slack, MCP "slack")과 봇(/dct-slack-bot, MCP "slack-bot") 두 모드 지원. 주소록 캐시 공유.
 ---
 
 # DCT Slack 스킬
 
-`/dct-slack` 커맨드의 백엔드. 봇 `매도비` (app_id: `A069U5ZRHR7`) 를 통해 `madupteam.slack.com` 으로 메시지를 전송한다.
+`/dct-slack` (본인 계정) 과 `/dct-slack-bot` (봇 `@매도비`) 두 커맨드의 공유 백엔드. 주소록 캐시, ID 해석, 에러 대응 로직을 담당한다.
+
+## 두 모드 비교
+
+| | `/dct-slack` (본인 계정) | `/dct-slack-bot` (봇) |
+|---|---|---|
+| MCP 키 | `slack` | `slack-bot` |
+| MCP 서버 | `@korotovsky/slack-mcp-server` | `@modelcontextprotocol/server-slack` |
+| 토큰 | `xoxc-` + `xoxd-` (브라우저 세션) | `xoxb-` (AWS Secrets Manager) |
+| 발신자 표시 | **본인 이름** | **@매도비** (봇) |
+| 도구 prefix | `mcp__slack__*` | `mcp__slack-bot__*` |
+| 용도 | 개인 DM, 본인 명의 메시지 | 팀 알림, 공지, 자동화 |
 
 ## 설계 원칙
 
