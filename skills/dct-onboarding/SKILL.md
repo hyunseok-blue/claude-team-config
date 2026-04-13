@@ -13,6 +13,25 @@ description: 데이터 컨설팅 팀(DCT) Claude Code 신규 셋업 가이드. A
 - **기존 파일 통째 덮어쓰기 절대 금지** — 백업 후 `jq` 병합, 또는 신규 생성 시에만 Write 허용
 - **이미 설정된 항목은 건너뛴다** — 기존 SSH 키, `gh` 로그인, CLAUDE.md, rules 존재 시 스킵
 - **GitHub 는 `gh` CLI + SSH 조합** — GitHub MCP/Docker/PAT 방식은 사용하지 않음
+- **진단 먼저, 가이드 나중** — 모든 단계 시작 전 자동 환경 진단 후 ❌ 항목만 안내
+
+## 환경 진단 (Step 0)
+
+온보딩 시작 시 아래를 자동 검사해 체크리스트 형식으로 출력한다. **토큰 값은 절대 출력하지 않고**, 키 존재 여부·명령 성공 여부만 확인.
+
+| 항목 | 검사 명령 | ✅ 기준 |
+|------|---------|---------|
+| Atlassian MCP | `jq '.mcpServers["mcp-atlassian"] // empty' ~/.claude.json` | 비어있지 않음 |
+| SSH 키 | `ls ~/.ssh/*.pub` | 1개 이상 존재 |
+| gh CLI | `gh auth status` | `Logged in` 포함 |
+| CLAUDE.md | `ls ~/.claude/CLAUDE.md` | 파일 존재 |
+| rules/ | `ls ~/.claude/rules/*.md \| wc -l` | 8개 이상 |
+| AWS CLI | `aws sts get-caller-identity` | exit code 0 |
+| Slack MCP | `jq '.mcpServers.slack // empty' ~/.claude.json` | 비어있지 않음 |
+
+- ✅ → 해당 체크리스트 단계 건너뛰기
+- ❌ → 해당 단계 번호와 함께 안내
+- 전부 ✅ → "온보딩 완료 상태입니다" 출력 후 종료
 
 ## 체크리스트
 

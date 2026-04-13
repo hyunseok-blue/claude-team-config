@@ -11,6 +11,50 @@ description: 데이터 컨설팅 팀(DCT) Claude Code 온보딩 — MCP 셋업, 
 
 `dct-onboarding` 스킬을 참조하여 아래 순서로 진행:
 
+### 0. 현재 환경 진단 (자동)
+온보딩 시작 전 **이미 설정된 항목을 자동 검사**해서, 필요한 단계만 안내한다. 사용자 입력 없이 Claude 가 직접 실행.
+
+```bash
+# A. Atlassian MCP
+jq '.mcpServers["mcp-atlassian"] // empty' ~/.claude.json 2>/dev/null
+
+# B. GitHub SSH
+ls ~/.ssh/*.pub 2>/dev/null
+
+# C. gh CLI
+gh auth status 2>&1
+
+# D. 팀 CLAUDE.md / rules
+ls ~/.claude/CLAUDE.md ~/.claude/rules/ 2>/dev/null
+
+# E. AWS CLI
+aws sts get-caller-identity 2>&1
+
+# F. Slack MCP
+jq '.mcpServers.slack // empty' ~/.claude.json 2>/dev/null
+```
+
+진단 결과를 **체크리스트 형식**으로 사용자에게 출력:
+```
+🔍 DCT 온보딩 환경 진단
+
+✅ Atlassian MCP — 연결됨 (mcp-atlassian in ~/.claude.json)
+✅ SSH 키 — ~/.ssh/id_ed25519.pub 존재
+✅ gh CLI — JHN-MAD 로그인 / SSH 프로토콜
+✅ CLAUDE.md — 존재
+✅ rules/ — 8개 파일 존재
+❌ AWS CLI — 인증 안 됨 → 6단계에서 설정
+❌ Slack MCP — 미등록 → 7단계에서 설정 (AWS 선행 필수)
+```
+
+- ✅ 항목은 **건너뛰기**
+- ❌ 항목만 해당 단계로 안내 (단계 번호와 함께 링크)
+- 전부 ✅ 이면: **"온보딩 완료 상태입니다. 추가 설정이 필요하면 개별 단계를 직접 요청하세요."** 메시지 출력 후 종료
+
+> **주의**: 진단 시 `~/.claude.json` 이나 `~/.claude/settings.json` 의 env 값(토큰)은 절대 출력하지 말 것. 키 존재 여부(`// empty`)만 확인.
+
+---
+
 ### 1. 사용자가 `settings-example.json` 직접 편집
 사용자는 리포 루트의 `settings-example.json` 파일을 에디터로 열어 Atlassian 값을 실제 값으로 교체한다. **Claude 는 이 단계에서 대기**.
 
