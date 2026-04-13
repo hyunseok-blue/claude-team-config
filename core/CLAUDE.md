@@ -27,6 +27,7 @@
 - `/dct-job <DCTC-번호> <타입> <설명>` — 플랜→구현→검증→PR 완전 자동화
 - `/dct-slack <ID|이름> <메시지>` — 팀 Slack 메시지 전송 (봇 @매도비)
 - `/dct-refresh-slack` — AWS Secrets Manager 에서 Slack 봇 토큰 갱신
+- `/dct-sc-analyze`, `/dct-sc-implement`, `/dct-sc-test`, `/dct-sc-debug`, `/dct-sc-optimize`, `/dct-sc-review` — 개발 워크플로우 커맨드
 
 ## 핵심 원칙
 - **Evidence > assumptions** — 추측 대신 근거

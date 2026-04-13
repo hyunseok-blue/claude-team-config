@@ -17,6 +17,12 @@
 | `/dct-job <DCTC-번호> <타입> <설명>` | 플랜→구현→검증→PR 완전 자동화 파이프라인 |
 | `/dct-slack <ID\|이름> <메시지>` | 봇 `@매도비` 통해 팀 Slack 채널/DM 전송 |
 | `/dct-refresh-slack` | AWS Secrets Manager 에서 Slack 봇 토큰 갱신 |
+| `/dct-sc-analyze <경로>` | 코드 품질/보안/성능/아키텍처 종합 분석 (P0~P3 리포트) |
+| `/dct-sc-implement "<설명>"` | TDD 기반 기능 구현 (Red-Green-Refactor) |
+| `/dct-sc-test [경로]` | 테스트 실행·커버리지·누락 테스트 자동 생성 |
+| `/dct-sc-debug "<에러>"` | 근본 원인 추적·경쟁 가설 검증·재현 테스트 |
+| `/dct-sc-optimize <경로>` | 성능 병목 분석·3가지 최적화 제안 |
+| `/dct-sc-review [--branch]` | 코드 리뷰 + PR 준비 상태 판정 |
 
 ### 스킬
 - `dct-onboarding` — `/dct` 백엔드
