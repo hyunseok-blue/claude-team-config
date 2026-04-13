@@ -56,7 +56,7 @@ description: 팀 Slack 메시지 전송 스킬. 본인 계정(/dct-slack, MCP "s
 
 | 용도 | 도구 |
 |------|------|
-| 메시지 전송 | `mcp__slack__slack_post_message` (`channel_id`, `text`) |
+| 메시지 전송 | `mcp__slack__conversations_add_message` (`channel_id`, `text`) |
 | 스레드 답변 | `mcp__slack__slack_reply_to_thread` |
 | 주소록 읽기/쓰기 | `Read` / `Write` / `jq` + `Bash` |
 
@@ -72,7 +72,7 @@ description: 팀 Slack 메시지 전송 스킬. 본인 계정(/dct-slack, MCP "s
 3. `@` 접두사 또는 일반 텍스트 → **이름** (주소록 조회 플로우로)
 
 ### Phase 3a — ID 직접 입력된 경우
-1. `mcp__slack__slack_post_message` 호출 (`channel_id` = 입력 ID)
+1. `mcp__slack__conversations_add_message` 호출 (`channel_id` = 입력 ID)
 2. 성공 시 `ok: true` 확인
 3. 사용자에게 묻기: **"이 ID (`U0AL4JJMC48`) 를 주소록에 어떤 이름으로 저장할까요? (건너뛰려면 skip)"**
 4. 이름 입력받으면 `~/.claude/dct-slack-addressbook.json` 에 병합:

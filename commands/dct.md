@@ -180,6 +180,14 @@ bash ~/.claude/plugins/cache/dct-marketplace/dct-claude-plugin/0.1.0/scripts/ref
 - `SLACK_TEAM_ID=T5D95TP5Z` 함께 설정
 - 검증 출력
 
+**캐시 워밍 (중요 — 첫 연결 타임아웃 방지)**:
+korotovsky slack-mcp-server 는 첫 실행 시 워크스페이스 전체 유저/채널을 캐시하느라 **10초 이상** 소요될 수 있다. Claude Code 는 MCP 서버 시작 시 타임아웃이 있어 첫 연결이 실패할 수 있으므로, **온보딩 중 서버를 한 번 수동 실행해 캐시를 미리 생성**한다:
+```bash
+# 캐시 워밍 (1회만, 서버가 "Loaded users from cache" 출력하면 Ctrl+C)
+npx -y slack-mcp-server
+```
+캐시 파일이 `~/Library/Caches/slack-mcp-server/` 에 저장되면, 이후 Claude Code 재시작 시 캐시에서 즉시 로드되어 타임아웃 없이 연결된다.
+
 **중요 — `~/.claude.json` vs `~/.claude/settings.json`**:
 - `~/.claude.json` ⭐ — Claude Code 의 **실제 MCP 레지스트리** (`claude mcp list` 가 읽는 곳). Slack MCP 는 이 파일에 등록해야 한다
 - `~/.claude/settings.json` — 훅, 권한, 테마 등. `mcpServers` 키가 있어도 Claude Code 는 무시할 수 있음 (환경에 따라)

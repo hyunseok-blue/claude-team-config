@@ -27,7 +27,7 @@
       "env": {
         "SLACK_MCP_XOXC_TOKEN": "YOUR_SLACK_XOXC_TOKEN_HERE",
         "SLACK_MCP_XOXD_TOKEN": "YOUR_SLACK_XOXD_TOKEN_HERE",
-        "SLACK_MCP_ADD_MESSAGE_TOOL": "false"
+        "SLACK_MCP_ADD_MESSAGE_TOOL": "true"
       }
     }
   }

@@ -49,11 +49,13 @@ MCP 서버: `slack` (`slack-mcp-server`, `xoxc-`/`xoxd-` 브라우저 세션 토
 ## MCP 도구 매핑
 
 본인 계정 전송은 `mcp__slack__*` (korotovsky 서버) 도구를 사용한다:
-- `mcp__slack__slack_post_message` — 메시지 전송
-- `mcp__slack__slack_list_channels` — 채널 목록 (참고용)
-- `mcp__slack__slack_get_channel_history` — 채널 히스토리
+- `mcp__slack__conversations_add_message` — 메시지 전송 (channel_id + text)
+- `mcp__slack__channels_list` — 채널 목록
+- `mcp__slack__conversations_history` — 채널 히스토리
+- `mcp__slack__users_search` — 유저 검색
+- `mcp__slack__conversations_search_messages` — 메시지 검색
 
-> **주의**: `mcp__slack-bot__*` (봇 서버) 와 혼동하지 말 것.
+> **주의**: 봇 서버(`mcp__slack-bot__*`)와 도구 이름 체계가 다름. 봇은 `slack_post_message`, 개인은 `conversations_add_message`.
 
 ## 주소록
 
