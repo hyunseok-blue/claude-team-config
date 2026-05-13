@@ -13,7 +13,7 @@
 
 ## 작업 디렉토리
 
-`<YOUR_GIT_ROOT>/madup/harness_sys/hq-weekly-report/` — 본인 환경에 맞게 수정 (예: `$HOME/Documents/git/madup/harness_sys/hq-weekly-report/`)
+`/Users/madup/Documents/git/madup/harness_sys/hq-weekly-report/`
 
 ## 흐름 (메인 Claude 세션이 따라야 하는 단계)
 
@@ -99,7 +99,7 @@ npm run deploy
 
 첫 배포 시:
 1. `netlify init` 으로 사이트 생성 (사이트명 결정 필요)
-2. `.env` 파일에 `HQ_REPORT_PASSWORD=<YOUR_REPORT_PASSWORD>` 확인 (.gitignore 처리됨)
+2. `.env` 파일에 `HQ_REPORT_PASSWORD=<YOUR_REPORT_PASSWORD>` 확인
 3. 첫 `netlify deploy --prod` 후 도메인 안내
 
 이후 매주 동일 도메인에 갱신.
