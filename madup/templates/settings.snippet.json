@@ -1,0 +1,16 @@
+{
+  "_comment": "본인 ~/.claude/settings.json 의 hooks.PostToolUse 배열에 아래 블록을 머지하세요. 기존 PostToolUse 항목이 있으면 hooks 배열에 추가하세요. 자동 동기화 대상 레포는 MADUP_CLAUDE_REPO 환경변수로 변경 가능 (기본: $HOME/Documents/git/madup/claude-team-config).",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/auto-sync-md.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
