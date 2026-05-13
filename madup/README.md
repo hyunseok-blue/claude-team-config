@@ -175,38 +175,163 @@ claude --help | head -5
 6. **변경 있으면 자동 commit + 비동기 push** — 작성자: `madup-claude-bot`.
 
 ### 일시 비활성화
+
+**macOS / Linux / WSL:**
 ```bash
 export MADUP_CLAUDE_REPO=     # 빈 값 — 훅이 조용히 종료
 ```
 
+**Windows PowerShell** (Claude Code 가 네이티브로 도는 경우):
+```powershell
+[Environment]::SetEnvironmentVariable("MADUP_CLAUDE_REPO", "", "User")
+```
+
 ### 레포 위치 변경
+
+**macOS / Linux / WSL** (`~/.zshrc` 또는 `~/.bashrc` 에 추가):
 ```bash
 export MADUP_CLAUDE_REPO=$HOME/code/claude-config
 ```
 
+**Windows PowerShell** (영구):
+```powershell
+[Environment]::SetEnvironmentVariable("MADUP_CLAUDE_REPO", "C:\code\claude-config", "User")
+```
+
 기본값: `$HOME/Documents/git/madup/claude-team-config`
+(Windows 네이티브: `%USERPROFILE%\Documents\git\madup\claude-team-config`)
 
 ---
 
-## 제거
+## 제거 / 롤백
+
+### 1. 자동 동기화 훅만 끄기 (가벼움)
+
+`~/.claude/settings.json` 의 `hooks.PostToolUse` 배열에서 `auto-sync-md.sh` 항목 제거:
+
+```json
+"PostToolUse": [
+  // 이 블록 통째로 삭제
+  {
+    "matcher": "Edit|Write|MultiEdit",
+    "hooks": [
+      { "type": "command", "command": "$HOME/.claude/hooks/auto-sync-md.sh" }
+    ]
+  }
+]
+```
+
+또는 임시로 환경변수 한 줄:
 
 ```bash
-# 백업에서 복원
-cp ~/.claude/backups/madup-claude-YYYYMMDD_HHMMSS/* ~/.claude/
+# macOS/Linux/WSL
+export MADUP_CLAUDE_REPO=
 
-# 자동 동기화 훅 해제
-# ~/.claude/settings.json 의 hooks.PostToolUse 에서 auto-sync-md.sh 항목 제거
+# Windows PowerShell
+[Environment]::SetEnvironmentVariable("MADUP_CLAUDE_REPO", "", "User")
+```
+
+### 2. 셋팅 전체 롤백 (백업에서 복원)
+
+설치 시 자동 생성된 백업 디렉토리에서 복원합니다.
+
+**macOS / Linux / WSL:**
+```bash
+# 가장 최근 백업 찾기
+ls -td ~/.claude/backups/madup-claude-*/ | head -1
+
+# 복원
+LATEST=$(ls -td ~/.claude/backups/madup-claude-*/ | head -1)
+cp "$LATEST"*.md ~/.claude/
+```
+
+**Windows PowerShell:**
+```powershell
+$latest = Get-ChildItem "$env:USERPROFILE\.claude\backups\madup-claude-*" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+Copy-Item "$($latest.FullName)\*.md" "$env:USERPROFILE\.claude\"
+```
+
+### 3. 훅 스크립트 자체 삭제
+
+```bash
+rm ~/.claude/hooks/auto-sync-md.sh
 ```
 
 ---
 
 ## 사전 요구사항
 
-- Claude Code CLI (`npm i -g @anthropic-ai/claude-code`)
-- `oh-my-claudecode` 플러그인 (CLAUDE.md 의 OMC 블록이 활용)
-- `rtk` CLI (RTK.md 의 토큰 절감 프록시, 선택)
-- `gh` CLI (자동 동기화 푸시에 사용)
-- Context7 MCP (CLAUDE.md 자동 트리거에서 사용)
+| 도구 | 필수 | 용도 | 설치 |
+|---|---|---|---|
+| `git` | ✅ | 레포 클론 + 자동 push | macOS: `brew install git` · Win: [git-scm.com](https://git-scm.com/) (Git Bash 포함) · Linux: `apt install git` |
+| `bash` 4.x+ | ✅ | setup·hook 스크립트 | macOS/Linux 기본 · Windows: WSL2 또는 Git Bash |
+| `gh` CLI | ✅ | push 인증 | macOS: `brew install gh` · Win/Linux: [cli.github.com](https://cli.github.com/) |
+| Claude Code CLI | ✅ | 본체 | `npm i -g @anthropic-ai/claude-code` (Node 18+) |
+| `oh-my-claudecode` (OMC) | 권장 | CLAUDE.md 의 OMC 블록 활용 | `npx oh-my-claudecode setup` |
+| Context7 MCP | 권장 | 디자인/라이브러리 문서 자동 참조 | `~/.claude/settings.json` 에 등록 (Lite 가 설정 포함) |
+| `rtk` CLI | 선택 | 토큰 절감 프록시 (RTK.md) | [github.com/rtk-ai](https://github.com/rtk-ai) |
+
+### gh 인증
+
+설치 후 한 번만:
+```bash
+gh auth login
+# Protocol: HTTPS, Authenticate: yes
+```
+
+자동 동기화가 fork 한 레포에 push 하려면 해당 계정에 push 권한이 있어야 합니다.
+계정 전환은 `gh auth switch`.
+
+---
+
+## 트러블슈팅
+
+### 설치 직후 Claude Code 가 안 뜸
+→ `~/.claude/settings.json` 이 깨졌을 가능성. `settings.json.bak.YYYYMMDD_HHMMSS` 백업으로 복원:
+```bash
+cp ~/.claude/settings.json.bak.* ~/.claude/settings.json    # 가장 최근 백업
+```
+
+### `./setup-madup.sh: Permission denied`
+→ 실행 권한 부여:
+```bash
+chmod +x setup-madup.sh hooks/*.sh
+```
+
+### Windows Git Bash 에서 `bad interpreter: /usr/bin/env`
+→ Git Bash 의 line ending 문제. CRLF → LF 로 변환:
+```bash
+sed -i 's/\r$//' setup-madup.sh hooks/*.sh
+```
+
+### 자동 동기화가 안 됨 (커밋이 안 쌓임)
+체크리스트:
+1. `~/.claude/settings.json` 의 `hooks.PostToolUse` 에 `auto-sync-md.sh` 등록됐는지
+2. `~/.claude/hooks/auto-sync-md.sh` 실행 권한 있는지 (`ls -la` 로 확인)
+3. 디바운스 락 확인: `ls -la /tmp/madup-claude-sync.lock` — 60초 안에 또 시도하면 스킵됨
+4. 직접 실행해 에러 보기:
+   ```bash
+   bash -x ~/.claude/hooks/auto-sync-md.sh
+   ```
+5. syslog 로그(macOS):
+   ```bash
+   log show --predicate 'eventMessage CONTAINS "madup-claude-sync"' --last 10m
+   ```
+
+### gh push 가 권한 거부됨
+```bash
+gh auth status                  # 현재 활성 계정 확인
+gh auth switch                  # 다른 계정으로 전환
+gh auth refresh -s repo,workflow   # 토큰 권한 추가
+```
+
+### `MADUP_CLAUDE_REPO` 가 인식 안 됨
+환경변수가 Claude Code 프로세스에 전달되려면 **셸 시작 파일**에 export 해야 합니다:
+- macOS zsh: `~/.zshrc`
+- Linux/WSL bash: `~/.bashrc`
+- Windows: 시스템 환경변수 (재로그인 필요)
+
+설정 후 Claude Code 를 재시작하세요.
 
 ---
 
@@ -215,3 +340,4 @@ cp ~/.claude/backups/madup-claude-YYYYMMDD_HHMMSS/* ~/.claude/
 - 이 셋팅은 **skpark 개인 환경 기반**입니다. CLAUDE.md 의 디자인 트리거, 메모리 경로, HQ 보고서 워크플로 등은 그대로 쓰면 본인 환경엔 맞지 않을 수 있습니다.
 - 자동 동기화 훅을 켜면 **임시 디버깅 수정도 60초 후 자동 푸시**됩니다. 민감한 실험 중에는 `MADUP_CLAUDE_REPO=` 로 끄세요.
 - 자동 푸시는 단방향(로컬→레포). 다른 머신에서는 수동 `git pull && ./setup-madup.sh` 필요.
+- Windows 네이티브 PowerShell 스크립트는 **없음** — WSL2 또는 Git Bash 경유 필수.
