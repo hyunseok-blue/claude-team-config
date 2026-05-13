@@ -1,4 +1,25 @@
-# SuperClaude Lite - 팀 Claude Code 설정
+# Claude Team Config — SuperClaude Lite & MADUP_CLAUDE
+
+이 레포는 두 가지 트랙을 제공합니다:
+
+| 트랙 | 위치 | 용도 |
+|---|---|---|
+| **SuperClaude Lite** | 루트 (`core/`, `commands/`, `skills/`) | 팀 공용 최소 베이스라인 (8 슬래시 커맨드 + 6 페르소나 + 8 스킬). 누구나 가볍게 시작 |
+| **MADUP_CLAUDE** | [`madup/`](./madup/README.md) | skpark@madup.com 개인 풀 셋팅 (OMC + RTK + 11 에이전트 + HQ 보고 + 디자인/이미지 트리거). 자동 동기화 훅 포함 |
+
+둘은 충돌하지 않으니 필요에 따라 둘 다 설치해도 됩니다.
+
+```bash
+# 가볍게: SuperClaude Lite
+./install.sh
+
+# 풀세트: MADUP_CLAUDE
+cd madup && ./setup-madup.sh
+```
+
+---
+
+## SuperClaude Lite
 
 팀 공통 Claude Code 설정 패키지. 페르소나 자동 활성화, `/sc:` 커맨드, 품질 스킬을 제공합니다.
 
