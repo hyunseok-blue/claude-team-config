@@ -54,3 +54,5 @@ AWS 비용 최적화 분석 팀의 리더. 4명의 전문 분석가를 조율하
 - cdn-network-analyst: 전체 비용의 72.7%를 담당하는 최우선 분석가
 - monitoring-analyst: 전체 서비스별 비용 브레이크다운을 제공받아 다른 분석가에게 배포
 - 모든 분석가: 작업 완료 시 `_workspace/` 경로에 findings 저장
+
+<!-- sync-verify-marker 1778636023 -->
