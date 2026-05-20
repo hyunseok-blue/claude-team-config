@@ -187,4 +187,6 @@ codex exec --skip-git-repo-check --cd <repo_root> --sandbox workspace-write -m g
 
 이때도 위 호출 템플릿 그대로 사용.
 
+@AGY_IMAGE.md
+
 @RTK.md
