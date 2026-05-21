@@ -190,3 +190,5 @@ codex exec --skip-git-repo-check --cd <repo_root> --sandbox workspace-write -m g
 @AGY_IMAGE.md
 
 @RTK.md
+
+@KARPATHY.md
