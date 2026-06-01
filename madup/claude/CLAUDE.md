@@ -17,9 +17,9 @@
 - **Package**: npm
 - Context7 MCP: auto-use for Next.js / React / FastAPI / Prisma docs
 
-# Parallelization Overrides (user policy — supersedes OMC defaults)
+# Parallelization Policy (user policy — conservative by default)
 
-OMC `<execution_protocols>` actively encourages parallelization. This user override scales it back:
+Default to conservative, sequential execution. Parallelize subagents only when it clearly pays off:
 
 - **Default to single-agent, sequential execution.** Do NOT spawn parallel subagents unless one of the conditions below is met.
 - **Parallelize only when:**
