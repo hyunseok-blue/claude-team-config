@@ -98,6 +98,26 @@ if [[ -f "$SCRIPT_DIR/hooks/.rtk-hook.sha256" ]]; then
   run cp "$SCRIPT_DIR/hooks/.rtk-hook.sha256" "$CLAUDE_DIR/hooks/.rtk-hook.sha256"
 fi
 
+# [7] Fable 5 zshrc 래퍼 함수 자동 주입 (~/.zshrc, 멱등·백업)
+ZSHRC="${ZDOTDIR:-$HOME}/.zshrc"
+ZSNIP="$SCRIPT_DIR/templates/zshrc-fable5.snippet"
+ZMARK="Claude Fable 5 persona wrapper"
+if [[ -f "$ZSNIP" ]]; then
+  if [[ -f "$ZSHRC" ]] && grep -q "$ZMARK" "$ZSHRC" 2>/dev/null; then
+    echo "[zshrc] Fable 5 래퍼 이미 존재 — 스킵"
+  else
+    echo "[zshrc] Fable 5 래퍼 함수 → $ZSHRC (백업 후 추가)"
+    if $DRY; then
+      echo "  \$ (dry-run) cat $ZSNIP >> $ZSHRC"
+    else
+      [[ -f "$ZSHRC" ]] && cp "$ZSHRC" "$ZSHRC.madup-bak-$(date +%Y%m%d_%H%M%S)"
+      printf '\n' >> "$ZSHRC"
+      cat "$ZSNIP" >> "$ZSHRC"
+      echo "  → 적용하려면 새 터미널을 열거나 'source $ZSHRC' 실행"
+    fi
+  fi
+fi
+
 echo
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 if $DRY; then
@@ -107,9 +127,10 @@ else
   echo
   echo "  다음 단계 (선택):"
   echo "  1. Claude Code 재시작"
-  echo "  2. 자동 동기화 훅을 켜려면:"
-  echo "     templates/settings.snippet.json 의 PostToolUse 블록을"
-  echo "     ~/.claude/settings.json 의 hooks.PostToolUse 배열에 추가"
+  echo "  2. 훅을 켜려면 templates/settings.snippet.json 을 참조해"
+  echo "     ~/.claude/settings.json 에 머지:"
+  echo "       • PostToolUse → 자동 동기화(auto-sync-md.sh)"
+  echo "       • SessionStart → 도구 점검(tool-health-check.sh)"
   echo "  3. 자동 동기화는 MADUP_CLAUDE_REPO 환경변수가 설정된 곳을 대상으로 함"
   echo "     기본값: \$HOME/Documents/git/madup/claude-team-config"
   [[ -d "$BACKUP_DIR" ]] && echo "  4. 백업: $BACKUP_DIR"

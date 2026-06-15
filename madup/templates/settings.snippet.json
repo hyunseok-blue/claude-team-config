@@ -1,5 +1,5 @@
 {
-  "_comment": "본인 ~/.claude/settings.json 의 hooks.PostToolUse 배열에 아래 블록을 머지하세요. 기존 PostToolUse 항목이 있으면 hooks 배열에 추가하세요. 자동 동기화 대상 레포는 MADUP_CLAUDE_REPO 환경변수로 변경 가능 (기본: $HOME/Documents/git/madup/claude-team-config).",
+  "_comment": "본인 ~/.claude/settings.json 의 hooks 에 아래 블록들을 머지하세요. 같은 이벤트(PostToolUse/SessionStart)에 기존 항목이 있으면 해당 배열에 객체를 추가하면 됩니다. 자동 동기화 대상 레포는 MADUP_CLAUDE_REPO 환경변수로 변경 가능 (기본: $HOME/Documents/git/madup/claude-team-config).",
   "hooks": {
     "PostToolUse": [
       {
@@ -8,6 +8,17 @@
           {
             "type": "command",
             "command": "$HOME/.claude/hooks/auto-sync-md.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/tool-health-check.sh"
           }
         ]
       }
