@@ -69,6 +69,10 @@ echo "[install] core MD → $CLAUDE_DIR/"
 for f in CLAUDE.md RTK.md SYSTEM.md COMMANDS.md PERSONAS.md; do
   run cp "$SCRIPT_DIR/claude/$f" "$CLAUDE_DIR/$f"
 done
+# Fable 5 페르소나 (있을 때만 — append-system-prompt-file 대상)
+if [[ -f "$SCRIPT_DIR/claude/fable5-persona.md" ]]; then
+  run cp "$SCRIPT_DIR/claude/fable5-persona.md" "$CLAUDE_DIR/fable5-persona.md"
+fi
 
 # [4] agents/*.md
 echo "[install] agents → $CLAUDE_DIR/agents/"

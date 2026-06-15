@@ -1,0 +1,35 @@
+# ── Claude Fable 5 persona wrapper ───────────────────────────────────────────
+# 대화형 `claude` 실행 시 Fable 5 페르소나를 --append-system-prompt-file 로 덧붙인다.
+# 서브커맨드(mcp/update/doctor/-p/--version 등)는 무주입 통과. command claude 로 재귀 방지.
+# claude-yolo / claude-auto / memory alias도 이 함수를 거쳐 페르소나를 상속한다.
+# setup-madup.sh 가 ~/.zshrc 에 자동 주입(중복 가드). 수동 설치 시 ~/.zshrc 끝에 붙여넣으세요.
+claude() {
+  emulate -L zsh
+  local bin persona first
+  bin=$HOME/.local/bin/claude
+  persona=$HOME/.claude/fable5-persona.md
+
+  local -a passthrough_first
+  passthrough_first=(
+    agents auth auto-mode doctor install mcp plugin plugins project
+    setup-token ultrareview update upgrade
+    -p --print -r --resume -c --continue --from-pr
+    -h --help -v --version
+  )
+
+  first=$1
+  if [[ -n $first ]] && (( ${passthrough_first[(Ie)$first]} )); then
+    command "$bin" "$@"
+    return
+  fi
+
+  local -a inject
+  inject=()
+  if [[ -f $persona ]]; then
+    inject+=(--append-system-prompt-file "$persona")
+  else
+    print -u2 "claude(wrapper): persona file $persona 없음 — 페르소나 없이 실행합니다."
+  fi
+  command "$bin" "${inject[@]}" "$@"
+}
+# ─────────────────────────────────────────────────────────────────────────────
